@@ -27,6 +27,12 @@
 .App-link {
   color: #61dafb;
 }
+.yellow-bg {
+  background-color: yellow;
+}
+.blocked-user {
+  text-decoration: line-through;
+}
 
 @keyframes App-logo-spin {
   from {
