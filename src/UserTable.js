@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const UserTable = ({ users, onDelete, currentUser, onLogout, setUsers }) => {
   const [lastLoginTime, setLastLoginTime] = useState(currentUser.lastLoginTime);
+  const [selectAll, setSelectAll] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
 
   const handleCheckboxChange = (user) => {
@@ -10,6 +11,15 @@ const UserTable = ({ users, onDelete, currentUser, onLogout, setUsers }) => {
     } else {
       setSelectedUsers([...selectedUsers, user]);
     }
+  };
+
+  const handleSelectAllChange = () => {
+    if (selectAll) {
+      setSelectedUsers([]);
+    } else {
+      setSelectedUsers([...users]);
+    }
+    setSelectAll(!selectAll);
   };
 
   const handleLogout = () => {
@@ -84,24 +94,24 @@ const UserTable = ({ users, onDelete, currentUser, onLogout, setUsers }) => {
         <table className="table table-striped">
           <thead>
             <tr>
+              <th scope="col">
+                <input
+                  type="checkbox"
+                  checked={selectAll}
+                  onChange={handleSelectAllChange}
+                />
+              </th>
               <th scope="col">Username</th>
               <th scope="col">Email</th>
               <th scope="col">Registration Date</th>
               <th scope="col">Last Login Time</th>
               <th scope="col">Status</th>
               <th scope="col">Actions</th>
-              <th scope="col">Blocked</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user, index) => (
               <tr key={index} style={{ backgroundColor: user.blocked ? '#eee' : 'transparent' }}>
-                <td>{user.username}</td>
-                <td>{user.email}</td>
-                <td>{user.registrationDate}</td>
-                <td>{user === currentUser ? lastLoginTime : user.lastLoginTime}</td>
-                <td>{user.id === currentUser.id ? 'Active' : 'Inactive'}</td>
-                <td>{user.blocked ? 'Blocked' : 'Active'}</td>
                 <td>
                   <input
                     type="checkbox"
@@ -109,6 +119,12 @@ const UserTable = ({ users, onDelete, currentUser, onLogout, setUsers }) => {
                     onChange={() => handleCheckboxChange(user)}
                   />
                 </td>
+                <td>{user.username}</td>
+                <td>{user.email}</td>
+                <td>{user.registrationDate}</td>
+                <td>{user === currentUser ? lastLoginTime : user.lastLoginTime}</td>
+                <td>{user.id === currentUser.id ? 'Active' : 'Inactive'}</td>
+                <td>{user.blocked ? 'Blocked' : 'Active'}</td>
               </tr>
             ))}
           </tbody>

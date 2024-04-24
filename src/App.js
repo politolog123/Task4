@@ -42,9 +42,7 @@ const App = () => {
   };
   
 
-  const handleLogout = () => {
-    setCurrentUser(null);
-  };
+  
 
   const handleDeleteUser = (usersToDelete) => {
     const remainingUsers = users.filter(user => !usersToDelete.includes(user));
@@ -62,6 +60,9 @@ const App = () => {
     if (currentUser && currentUser.id === userToBlock.id && !userToBlock.blocked) {
       handleLogout();
     }
+  };
+  const handleLogout = () => {
+    setCurrentUser(null);
   };
 
   return (
